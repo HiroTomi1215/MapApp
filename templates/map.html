@@ -12,12 +12,33 @@
       src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
     ></script>
     <style>
-        #map { height: 90vh; width: 100%; }
+        body { font-family: sans-serif; margin: 0; padding: 0; }
+        #map { height: 60vh; width: 100%; }
+        .container { padding: 1em; }
+        ul { list-style: none; padding: 0; }
+        li { margin-bottom: 0.5em; }
+        form input { margin-right: 0.5em; }
     </style>
 </head>
 <body>
-    <h2>京都の観光地マップ</h2>
     <div id="map"></div>
+
+    <div class="container">
+        <h2>📍 京都の観光地一覧</h2>
+        <ul>
+            {% for loc in locations %}
+                <li>{{ loc.name }}（緯度: {{ loc.lat }}, 経度: {{ loc.lng }}）</li>
+            {% endfor %}
+        </ul>
+
+        <h3>➕ 観光地を追加</h3>
+        <form method="post">
+            <input type="text" name="name" placeholder="名称" required>
+            <input type="text" name="lat" placeholder="緯度" required>
+            <input type="text" name="lng" placeholder="経度" required>
+            <button type="submit">追加</button>
+        </form>
+    </div>
 
     <script>
         const map = L.map('map').setView([35.0116, 135.7681], 12); // 京都中心
