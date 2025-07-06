@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for
+from geopy.geocoders import Nominatim
 
 app = Flask(__name__)
 
@@ -11,13 +12,19 @@ locations = [
     {"name": "嵐山", "lat": 35.0094, "lng": 135.6668}
 ]
 
+# ジオコーディング：住所→緯度・経度
+geolocator = Nominatim(user_agent="map_app")
+
+
 @app.route('/', methods=['GET', 'POST'])
 def map_view():
     if request.method == 'POST':
         name = request.form.get('name')
-        lat = request.form.get('lat')
-        lng = request.form.get('lng')
-        if name and lat and lng:
+        location = geolocator.geocode(name)
+
+        lat = location.latitude
+        lng = location.longitude
+        if name:
             try:
                 locations.append({
                     "name": name,
