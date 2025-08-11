@@ -37,5 +37,12 @@ def map_view():
 
     return render_template('map.html', locations=locations)
 
+@app.route('/delete', methods=['POST'])
+def delete_location():
+    name = request.form.get('name')
+    global locations
+    locations = [loc for loc in locations if loc["name"] != name]
+    return redirect(url_for('map_view'))
+
 if __name__ == '__main__':
     app.run(debug=True)

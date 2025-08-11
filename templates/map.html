@@ -25,11 +25,17 @@
 
     <div class="container">
         <h2>📍 京都の観光地一覧</h2>
-        <ul>
-            {% for loc in locations %}
-                <li>{{ loc.name }}（緯度: {{ loc.lat }}, 経度: {{ loc.lng }}）</li>
-            {% endfor %}
-        </ul>
+<ul>
+    {% for loc in locations %}
+        <li>
+            {{ loc.name }}（緯度: {{ loc.lat }}, 経度: {{ loc.lng }}）
+            <form method="post" action="{{ url_for('delete_location') }}" style="display:inline;">
+                <input type="hidden" name="name" value="{{ loc.name }}">
+                <button type="submit">削除</button>
+            </form>
+        </li>
+    {% endfor %}
+</ul>
 
         <h3>➕ 観光地を追加</h3>
         <form method="post">
